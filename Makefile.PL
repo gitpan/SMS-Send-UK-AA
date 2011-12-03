@@ -31,13 +31,13 @@ my %WriteMakefileArgs = (
     "LWP::Protocol::https" => 0,
     "LWP::UserAgent" => "6.00",
     "SMS::Send::Driver" => 0,
-    "URI" => 0,
+    "URI" => "1.53",
     "constant" => 0,
     "overload" => 0,
     "parent" => 0,
     "strict" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }

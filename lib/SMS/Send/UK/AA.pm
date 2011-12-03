@@ -1,6 +1,6 @@
 package SMS::Send::UK::AA;
 {
-  $SMS::Send::UK::AA::VERSION = '0.001';
+  $SMS::Send::UK::AA::VERSION = '0.002';
 }
 # ABSTRACT: Send SMS messages using Andrews and Arnold's gateway
 use strict;
@@ -9,7 +9,7 @@ use parent qw(SMS::Send::Driver);
 use Carp qw(croak);
 use LWP::UserAgent 6.00; # We need proper SSL support
 use HTTP::Request::Common;
-use URI;
+use URI 1.53; # ->secure
 
 use SMS::Send::UK::AA::Response;
 
@@ -23,9 +23,9 @@ sub new {
   my($class, %args) = @_;
 
   my $self = bless {
-    _endpoint   => delete $args{_endpoint} || DEFAULT_ENDPOINT,
-    _username   => delete $args{_login},
-    _password   => delete $args{_password},
+    _endpoint => delete $args{_endpoint} || DEFAULT_ENDPOINT,
+    _username => delete $args{_login},
+    _password => delete $args{_password},
   }, $class;
 
   my $ssl_verify = exists $args{_ssl_verify} ? delete $args{_ssl_verify} : 1;
@@ -70,8 +70,8 @@ sub _create_ua {
     require CACertOrg::CA;
 
     $ua->ssl_opts(
-      verify_hostnames => 1,
-      SSL_ca_file      => CACertOrg::CA::SSL_ca_file()
+      verify_hostname => 1,
+      SSL_ca_file     => CACertOrg::CA::SSL_ca_file()
     );
   }
 
@@ -98,7 +98,7 @@ sub _construct_request {
 1;
 
 
-
+__END__
 =pod
 
 =head1 NAME
@@ -107,7 +107,7 @@ SMS::Send::UK::AA - Send SMS messages using Andrews and Arnold's gateway
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -134,7 +134,7 @@ with A&A in order to use this module.
 
 =head1 PARAMETERS
 
-Certain private parmaters not part of L<SMS::Send>'s API are implemented by
+Certain private parameters not part of L<SMS::Send>'s API are implemented by
 this module. They all begin with an underscore (C<_>). See the A&A docs for
 full details if not explained here.
 
@@ -241,7 +241,4 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-__END__
 

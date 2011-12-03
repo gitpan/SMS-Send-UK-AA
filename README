@@ -2,7 +2,7 @@ NAME
     SMS::Send::UK::AA - Send SMS messages using Andrews and Arnold's gateway
 
 VERSION
-    version 0.001
+    version 0.002
 
 SYNOPSIS
       use SMS::Send;
@@ -26,9 +26,9 @@ DESCRIPTION
     a VoIP account with A&A in order to use this module.
 
 PARAMETERS
-    Certain private parmaters not part of SMS::Send's API are implemented by
-    this module. They all begin with an underscore ("_"). See the A&A docs
-    for full details if not explained here.
+    Certain private parameters not part of SMS::Send's API are implemented
+    by this module. They all begin with an underscore ("_"). See the A&A
+    docs for full details if not explained here.
 
   Constructor parameters
     *   _login
