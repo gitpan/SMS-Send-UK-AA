@@ -1,0 +1,13 @@
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+dist.ini
+lib/SMS/Send/UK/AA.pm
+lib/SMS/Send/UK/AA/Response.pm
+t/01.load.t
+t/02.send.t
+t/release-pod-coverage.t
+t/release-pod-syntax.t

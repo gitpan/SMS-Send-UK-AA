@@ -1,0 +1,34 @@
+---
+abstract: "Send SMS messages using Andrews and Arnold's gateway"
+author:
+  - 'David Leadbeater <dgl@dgl.cx>'
+build_requires:
+  HTTP::Body: 0
+  SMS::Send: 0
+  Test::LWP::MockSocket::http: 0
+  Test::More: 0.87
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300003, CPAN::Meta::Converter version 2.112621'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: SMS-Send-UK-AA
+requires:
+  CACertOrg::CA: 0
+  Carp: 0
+  HTTP::Request::Common: 0
+  LWP::Protocol::https: 0
+  LWP::UserAgent: 6.00
+  SMS::Send::Driver: 0
+  URI: 0
+  constant: 0
+  overload: 0
+  parent: 0
+  strict: 0
+resources:
+  bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=SMS-Send-UK-AA
+  repository: git://github.com/dgl/SMS-Send-UK-AA
+version: 0.001
