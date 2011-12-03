@@ -1,6 +1,6 @@
 package SMS::Send::UK::AA;
 {
-  $SMS::Send::UK::AA::VERSION = '0.002';
+  $SMS::Send::UK::AA::VERSION = '0.003';
 }
 # ABSTRACT: Send SMS messages using Andrews and Arnold's gateway
 use strict;
@@ -92,6 +92,10 @@ sub _construct_request {
     $data{substr $name, 1} = $params{$name};
   }
 
+  if(exists $data{iccid}) {
+    delete $data{destination};
+  }
+
   return POST $endpoint, \%data;
 }
 
@@ -107,7 +111,7 @@ SMS::Send::UK::AA - Send SMS messages using Andrews and Arnold's gateway
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -132,6 +136,14 @@ This is a L<SMS::Send> compatible module that sends using the UK based provider
 L<Andrews and Arnold Ltd|http://aa.net.uk> (A&A). You will need a VoIP account
 with A&A in order to use this module.
 
+=head1 METHODS
+
+=head2 send_sms
+
+Sends an SMS. The return value will evaluate in boolean context to a false
+value, but will stringify to a useful message. It also has a C<status_line>
+method which will return a one line status.
+
 =head1 PARAMETERS
 
 Certain private parameters not part of L<SMS::Send>'s API are implemented by
@@ -144,11 +156,13 @@ full details if not explained here.
 
 =item * _login
 
-Must be provided, your A&A VoIP username.
+If using a VoIP line, must be provided, your A&A VoIP username (usually your
+phone number). Not required for direct to SIM delivery.
 
 =item * _password
 
-Must be provided, password associated with the above.
+Must be provided, either the password associated with the above, or the SMS
+password configured along with your SIM.
 
 =item * _endpoint
 
@@ -209,14 +223,18 @@ User data header, in hex.
 
 =item * _iccid
 
-Send to a specific SIM -- you'll also need to specify the C<to> field as this
-in order for L<SMS::Send> to be happy.
+Send to a specific SIM. You'll also need to specify the C<to> field as this to
+keep L<SMS::Send> happy. An originator must be specified if you provide this.
 
 =back
 
 =head1 SEE ALSO
 
 =over 4
+
+=item *
+
+An example of an email to SMS gateway is in F<eg/sms.pl> in the distribution.
 
 =item *
 

@@ -5,6 +5,7 @@ META.yml
 Makefile.PL
 README
 dist.ini
+eg/sms.pl
 lib/SMS/Send/UK/AA.pm
 lib/SMS/Send/UK/AA/Response.pm
 t/01.load.t
