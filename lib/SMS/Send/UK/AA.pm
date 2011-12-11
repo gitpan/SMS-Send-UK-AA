@@ -1,6 +1,6 @@
 package SMS::Send::UK::AA;
 {
-  $SMS::Send::UK::AA::VERSION = '0.003';
+  $SMS::Send::UK::AA::VERSION = '0.004';
 }
 # ABSTRACT: Send SMS messages using Andrews and Arnold's gateway
 use strict;
@@ -65,13 +65,13 @@ sub _create_ua {
   my $ua = LWP::UserAgent->new;
   $ua->env_proxy;
 
-  if($ssl_verify && URI->new($self->{_endpoint})->secure) {
+  if(URI->new($self->{_endpoint})->secure) {
     require LWP::Protocol::https;
-    require CACertOrg::CA;
+    require CACertOrg::CA if $ssl_verify;
 
     $ua->ssl_opts(
-      verify_hostname => 1,
-      SSL_ca_file     => CACertOrg::CA::SSL_ca_file()
+      verify_hostname => $ssl_verify,
+      $ssl_verify ? (SSL_ca_file => CACertOrg::CA::SSL_ca_file()) : ()
     );
   }
 
@@ -111,7 +111,7 @@ SMS::Send::UK::AA - Send SMS messages using Andrews and Arnold's gateway
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

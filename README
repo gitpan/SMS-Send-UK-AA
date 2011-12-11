@@ -2,7 +2,7 @@ NAME
     SMS::Send::UK::AA - Send SMS messages using Andrews and Arnold's gateway
 
 VERSION
-    version 0.003
+    version 0.004
 
 SYNOPSIS
       use SMS::Send;
