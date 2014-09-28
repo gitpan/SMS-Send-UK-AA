@@ -1,7 +1,5 @@
 package SMS::Send::UK::AA;
-{
-  $SMS::Send::UK::AA::VERSION = '0.004';
-}
+$SMS::Send::UK::AA::VERSION = '0.005';
 # ABSTRACT: Send SMS messages using Andrews and Arnold's gateway
 use strict;
 use parent qw(SMS::Send::Driver);
@@ -16,7 +14,7 @@ use SMS::Send::UK::AA::Response;
 use constant DEFAULT_ENDPOINT => "https://sms.aa.net.uk/sms.cgi";
 
 my @supported_params = qw(
-  limit sendtime replace flash report costcentre private originator udh iccid
+  limit costcentre private originator oa udh
 );
 
 sub new {
@@ -67,11 +65,11 @@ sub _create_ua {
 
   if(URI->new($self->{_endpoint})->secure) {
     require LWP::Protocol::https;
-    require CACertOrg::CA if $ssl_verify;
+    require Mozilla::CA if $ssl_verify;
 
     $ua->ssl_opts(
       verify_hostname => $ssl_verify,
-      $ssl_verify ? (SSL_ca_file => CACertOrg::CA::SSL_ca_file()) : ()
+      $ssl_verify ? (SSL_ca_file => Mozilla::CA::SSL_ca_file()) : ()
     );
   }
 
@@ -84,16 +82,12 @@ sub _construct_request {
   my $endpoint = delete $params{_endpoint};
 
   my %data;
-  $data{message}     = delete $params{text};
-  $data{destination} = delete $params{to};
+  $data{ud} = delete $params{text};
+  $data{da} = delete $params{to};
 
   for my $name(keys %params) {
     next unless $name =~ /^_/;
     $data{substr $name, 1} = $params{$name};
-  }
-
-  if(exists $data{iccid}) {
-    delete $data{destination};
   }
 
   return POST $endpoint, \%data;
@@ -101,9 +95,11 @@ sub _construct_request {
 
 1;
 
-
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -111,7 +107,7 @@ SMS::Send::UK::AA - Send SMS messages using Andrews and Arnold's gateway
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
@@ -189,22 +185,6 @@ method.
 
 Limit number of parts.
 
-=item * _sendtime
-
-Specify a time in the future to send the message.
-
-=item * _replace
-
-Replace a previous message from this originator.
-
-=item * _flash
-
-I<Flash> the message on the phone's screen.
-
-=item * _report
-
-URL or email of where to send a delivery report.
-
 =item * _costcentre
 
 Reported on XML bill.
@@ -213,18 +193,17 @@ Reported on XML bill.
 
 Do not show the text on the bill.
 
-=item * _originator
+=item * _oa
 
 Set a specific sender.
+
+=item * _originator
+
+Set a specific sender (same as oa, for backwards compatiblity).
 
 =item * _udh
 
 User data header, in hex.
-
-=item * _iccid
-
-Send to a specific SIM. You'll also need to specify the C<to> field as this to
-keep L<SMS::Send> happy. An originator must be specified if you provide this.
 
 =back
 
@@ -259,4 +238,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

@@ -2,7 +2,7 @@ NAME
     SMS::Send::UK::AA - Send SMS messages using Andrews and Arnold's gateway
 
 VERSION
-    version 0.004
+    version 0.005
 
 SYNOPSIS
       use SMS::Send;
@@ -68,22 +68,6 @@ PARAMETERS
 
         Limit number of parts.
 
-    *   _sendtime
-
-        Specify a time in the future to send the message.
-
-    *   _replace
-
-        Replace a previous message from this originator.
-
-    *   _flash
-
-        *Flash* the message on the phone's screen.
-
-    *   _report
-
-        URL or email of where to send a delivery report.
-
     *   _costcentre
 
         Reported on XML bill.
@@ -92,19 +76,17 @@ PARAMETERS
 
         Do not show the text on the bill.
 
-    *   _originator
+    *   _oa
 
         Set a specific sender.
+
+    *   _originator
+
+        Set a specific sender (same as oa, for backwards compatiblity).
 
     *   _udh
 
         User data header, in hex.
-
-    *   _iccid
-
-        Send to a specific SIM. You'll also need to specify the "to" field
-        as this to keep SMS::Send happy. An originator must be specified if
-        you provide this.
 
 SEE ALSO
     *   An example of an email to SMS gateway is in eg/sms.pl in the
